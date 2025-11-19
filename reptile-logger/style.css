@@ -1,0 +1,59 @@
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f3f4f6;
+}
+
+main {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  background: #0f766e;
+  color: white;
+}
+
+button:disabled {
+  opacity: 0.7;
+}
+
+#status {
+  min-height: 24px;
+  font-size: 14px;
+  margin: 8px 0 16px;
+}
+
+h2 {
+  margin-top: 24px;
+}
+
+#sightings-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+
+#sightings-list li {
+  background: white;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
