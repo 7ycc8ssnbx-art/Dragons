@@ -1,4 +1,4 @@
-const CACHE_NAME = 'reptile-logger-v2';
+const CACHE_NAME = 'reptile-logger-v3';
 const ASSETS = [
   './',
   'index.html',
