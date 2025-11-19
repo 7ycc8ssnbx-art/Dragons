@@ -17,6 +17,11 @@ const listEl = document.getElementById('sightings-list');
 const farmerInput = document.getElementById('farmer-code');
 const saveCodeBtn = document.getElementById('save-code-btn');
 
+// New fields
+const speciesInput = document.getElementById('species');
+const notesInput = document.getElementById('notes');
+const photoInput = document.getElementById('photo'); // placeholder for future photo support
+
 function loadJson(key) {
   const raw = localStorage.getItem(key);
   if (!raw) return [];
@@ -69,7 +74,19 @@ function renderSightings() {
   sightings.forEach(s => {
     const li = document.createElement('li');
     const dt = new Date(s.timestamp);
-    li.textContent = `${dt.toLocaleString()} — ${s.latitude.toFixed(5)}, ${s.longitude.toFixed(5)} (${s.farmer_code || 'no code'})`;
+    let line =
+      `${dt.toLocaleString()} — ` +
+      `${s.latitude.toFixed(5)}, ${s.longitude.toFixed(5)} ` +
+      `(${s.farmer_code || 'no code'})`;
+
+    if (s.species) {
+      line += ` [${s.species}]`;
+    }
+    if (s.notes) {
+      line += ` — ${s.notes}`;
+    }
+
+    li.textContent = line;
     listEl.appendChild(li);
   });
 }
@@ -88,6 +105,7 @@ async function syncUnsynced() {
         farmer_code: s.farmer_code,
         latitude: s.latitude,
         longitude: s.longitude,
+        species: s.species || null,
         notes: s.notes || null
       }))
     );
@@ -133,10 +151,11 @@ function exportCsv() {
     return;
   }
 
-  let csv = 'timestamp,farmer_code,latitude,longitude,notes\n';
+  let csv = 'timestamp,farmer_code,latitude,longitude,species,notes\n';
   for (const s of sightings) {
+    const safeSpecies = (s.species || '').replace(/"/g, '""');
     const safeNotes = (s.notes || '').replace(/"/g, '""');
-    csv += `"${s.timestamp}","${s.farmer_code || ''}",${s.latitude},${s.longitude},"${safeNotes}"\n`;
+    csv += `"${s.timestamp}","${s.farmer_code || ''}",${s.latitude},${s.longitude},"${safeSpecies}","${safeNotes}"\n`;
   }
 
   const blob = new Blob([csv], { type: 'text/csv' });
@@ -179,6 +198,9 @@ function logSighting() {
     return;
   }
 
+  const species = speciesInput ? speciesInput.value.trim() : '';
+  const notes = notesInput ? notesInput.value.trim() : '';
+
   logBtn.disabled = true;
   logInfo('Getting location...');
 
@@ -191,10 +213,18 @@ function logSighting() {
         farmer_code: farmerCode,
         latitude: pos.coords.latitude,
         longitude: pos.coords.longitude,
-        notes: ''
+        species: species,
+        notes: notes
+        // photo: could be added later
       };
 
       logLocally(record);
+
+      // Clear optional fields for next entry
+      if (speciesInput) speciesInput.value = '';
+      if (notesInput) notesInput.value = '';
+      if (photoInput) photoInput.value = '';
+
       logInfo('Sighting logged locally.');
       logBtn.disabled = false;
 
