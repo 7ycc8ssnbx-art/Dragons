@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Reptile Logger</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Reptile Logger</h1>
+
+    <label for="farmer-code">Your farm code</label>
+    <input id="farmer-code" placeholder="e.g. FARM01">
+    <button id="save-code-btn">Save farm code</button>
+
+    <button id="log-btn">Log reptile sighting</button>
+    <p id="status"></p>
+
+    <h2>Previous sightings (on this device)</h2>
+    <ul id="sightings-list"></ul>
+
+    <button id="export-btn">Export local data (CSV)</button>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
